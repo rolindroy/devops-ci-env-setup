@@ -87,6 +87,8 @@
       ignore_errors: yes
       register: docker_py_inastall
 
+    - shell: curl -sSL https://get.docker.com/ | sh 
+
     - debug: var=docker_py_inastall verbosity=4
 
     - name: Checking out Java project
