@@ -109,5 +109,5 @@
         name: ubuntu:12.04
 
     - name: Build docker image
-      command: docker build -t devops_bootstrap/counterapp . chdir=/home/{{ ubuntu_user }}/jenkins-slave"
+      command: docker build -t devops_bootstrap/counterapp . chdir="/home/{{ ubuntu_user }}/jenkins-slave"
       when: copy_artifact.changed
