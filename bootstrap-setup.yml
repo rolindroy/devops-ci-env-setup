@@ -10,66 +10,66 @@
 - name: DevOps QA Env-Setup
   hosts: dynamically_created_hosts
   sudo: True
-  pre_tasks:
-    - name: Installing repo for Java Open JDK 8.
-      apt_repository: repo='ppa:openjdk-r/ppa'
-
-    - name: Updating apt-cache for Java Open JDK 8.
-      apt: update_cache=yes
-
-    - name: Installing Curl and wget
-      apt: pkg={{ item }} state=latest
-      with_items:
-        - curl
-        - wget
-        - zip
-        - unzip
-        - git
-  roles:
-    - role: java
-      when: "ansible_os_family == 'Debian'"
-      java_packages:
-        - openjdk-8-jdk
-
-    - role: mysql
-    - role: maven
-    - role: sonar
-
+  # pre_tasks:
+  #   - name: Installing repo for Java Open JDK 8.
+  #     apt_repository: repo='ppa:openjdk-r/ppa'
+  #
+  #   - name: Updating apt-cache for Java Open JDK 8.
+  #     apt: update_cache=yes
+  #
+  #   - name: Installing Curl and wget
+  #     apt: pkg={{ item }} state=latest
+  #     with_items:
+  #       - curl
+  #       - wget
+  #       - zip
+  #       - unzip
+  #       - git
+  # roles:
+  #   - role: java
+  #     when: "ansible_os_family == 'Debian'"
+  #     java_packages:
+  #       - openjdk-8-jdk
+  #
+  #   - role: mysql
+  #   - role: maven
+  #   - role: sonar
+  #
   tasks:
-    - name: Install Docker
-      apt: pkg={{ item }} state=latest
-      with_items:
-        - docker
-        - docker.io
-      ignore_errors: True
-
-    - name: Update docker service to run without sudo
-      user: name={{ item }} groups=docker append=yes
-      sudo: true
-      with_items:
-        - "{{ ubuntu_user }}"
-        - jenkins
-      register: docker_group
-
-    - name: Kill open ssh sessions
-      shell: "ps -ef | grep sshd | grep jenkins | awk '{print \"kill -9\", $2}' | sh"
-      when: docker_group | changed
-      failed_when: false
-
-    - name: Updating apt-cache
-      apt: update_cache=yes
-
-    - name: Create Slave directory
-      file:
-        path: "/home/{{ ubuntu_user }}/jenkins-slave"
-        state: directory
-        owner: "{{ ubuntu_user }}"
-        group: "{{ ubuntu_user }}"
-        mode: 0775
+  #   - name: Install Docker
+  #     apt: pkg={{ item }} state=latest
+  #     with_items:
+  #       - docker
+  #       - docker.io
+  #     ignore_errors: True
+  #
+  #   - name: Update docker service to run without sudo
+  #     user: name={{ item }} groups=docker append=yes
+  #     sudo: true
+  #     with_items:
+  #       - "{{ ubuntu_user }}"
+  #       - jenkins
+  #     register: docker_group
+  #
+  #   - name: Kill open ssh sessions
+  #     shell: "ps -ef | grep sshd | grep jenkins | awk '{print \"kill -9\", $2}' | sh"
+  #     when: docker_group | changed
+  #     failed_when: false
+  #
+  #   - name: Updating apt-cache
+  #     apt: update_cache=yes
+  #
+  #   - name: Create Slave directory
+  #     file:
+  #       path: "/home/{{ ubuntu_user }}/jenkins-slave"
+  #       state: directory
+  #       owner: "{{ ubuntu_user }}"
+  #       group: "{{ ubuntu_user }}"
+  #       mode: 0775
 
     - name: Checking out Java project
       git: repo=https://github.com/rolindroy/devops-ci-deployment.git/
            dest="/home/{{ ubuntu_user }}/jenkins-slave"
 
     - name: Running Maven build
-      shell: clean compile package  chdir="/home/{{ ubuntu_user }}/jenkins-slave"
+      shell: mvn clean compile package  chdir="/home/{{ ubuntu_user }}/jenkins-slave"
