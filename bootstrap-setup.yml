@@ -84,6 +84,4 @@
       docker_image:
         path: "/home/{{ ubuntu_user }}/jenkins-slave"
         name: devops_bootstrap/counterapp
-        buildargs:
-          listen_port: 8080
       when: copy_artifact.changed
