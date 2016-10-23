@@ -1,17 +1,14 @@
 ---
 
-#*******************************************************************************************************************
-#This is the Bootstrap project for setting up end-to-end DevOps CI/CD Integration process written by Rolind Roy.
-#
-#This projects contains bash scripts and ansible playbooks,
-#Docker that can be execute in any Debian based platform such as Ubuntu (14.04, 16.04).
-#It can be integrated "end-to-end" CI/CD Process that starts from setting up environments to Deployed on Web server.
-#
-# ---   @author Rolind Roy < hello@rolindroy.com >
-#*******************************************************************************************************************
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - add_host:
+        name: "{{ target_host }}"
+        groups: dynamically_created_hosts
 
-- name: Continues Integration Server Configuration
-  hosts: all
+- name: DevOps QA Env-Setup
+  hosts: dynamically_created_hosts
   sudo: True
   pre_tasks:
     - name: Installing repo for Java Open JDK 8.
@@ -35,21 +32,15 @@
         - openjdk-8-jdk
 
 - name: Installing and configuring application for java build
-  hosts: slave
+  hosts: dynamically_created_hosts
   sudo: True
   roles:
     - role: mysql
     - role: maven
     - role: sonar
 
-- name: Installing and configuring ci-cd
-  hosts: server
-  sudo: True
-  roles:
-    - role: jenkins
-
 - name: Docker
-  hosts: slave
+  hosts: dynamically_created_hosts
   sudo: True
   tasks:
     - name: Install Docker
@@ -82,3 +73,7 @@
         owner: {{ ubuntu_user }}
         group: {{ ubuntu_user }}
         mode: 0775
+
+    - name: Checking out Java project
+      git: repo=https://github.com/Homebrew/linuxbrew.git
+           dest="/home/{{ ubuntu_user }}/jenkins-slave"
