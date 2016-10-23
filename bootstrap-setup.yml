@@ -108,8 +108,8 @@
       command: docker build -t devops_bootstrap/counterapp . chdir="/home/{{ ubuntu_user }}/jenkins-slave"
       when: copy_artifact.changed
 
-   - name: Remove existing container
-     docker:
+    - name: Remove existing container
+      docker:
         name: devops_counterapp
         image: "devops_bootstrap/counterapp:latest"
         state: absent
