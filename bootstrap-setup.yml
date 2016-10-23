@@ -87,7 +87,7 @@
       ignore_errors: yes
       register: docker_py_inastall
 
-    - debug: var=docker_py_inastall.stdout_lines
+    - debug: var=docker_py_inastall verbosity=4
 
     - name: Checking out Java project
       git: repo=https://github.com/rolindroy/devops-ci-deployment.git/
