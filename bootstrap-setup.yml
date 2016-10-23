@@ -83,7 +83,7 @@
       with_items:
         - { name: pip, version: latest, install: true }
         - { name: setuptools, version: latest, install: true }
-        - { name: docker-py, 1.9.0: latest, install: true }
+        - { name: docker-py, version: 1.9.0, install: true }
         - { name: docker-compose, version: latest, install: true }
       ignore_errors: yes
 
