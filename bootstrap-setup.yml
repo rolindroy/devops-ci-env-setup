@@ -76,9 +76,7 @@
       register: build_success
 
     - name: Copy artifact file to current location
-      copy:
-        src="/home/{{ ubuntu_user }}/jenkins-slave/CounterWebApp/target/CounterWebApp.war"
-        dest="/home/{{ ubuntu_user }}/jenkins-slave/CounterWebApp.war"
+      command: mv "/home/{{ ubuntu_user }}/jenkins-slave/CounterWebApp/target/CounterWebApp.war" "/home/{{ ubuntu_user }}/jenkins-slave/CounterWebApp.war"
       register: copy_artifact
       when: build_success.changed
 
