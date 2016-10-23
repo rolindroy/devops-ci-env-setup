@@ -66,32 +66,32 @@
     #     group: "{{ ubuntu_user }}"
     #     mode: 0775
 
-    - name: Install pip, python-dev package with apt
-      apt:
-        pkg: "{{ item }}"
-        state: latest
-        update_cache: yes
-      with_items:
-        - python-dev
-        - python-pip
-
-    - name: Upgrade latest pip, setuptools, docker-py and docker-compose with pip
-      pip:
-        name: "{{ item.name }}"
-        state: latest
-      with_items:
-        - { name: pip, version: latest, install: true }
-        - { name: setuptools, version: latest, install: true }
-        - { name: docker-py==1.9.0, state: forcereinstall }
-        # - { name: docker-compose, version: latest, install: true }
-      ignore_errors: yes
-      register: docker_py_inastall
-
-    - debug: var=docker_py_inastall verbosity=4
-
-    - name: Checking out Java project
-      git: repo=https://github.com/rolindroy/devops-ci-deployment.git/
-           dest="/home/{{ ubuntu_user }}/jenkins-slave"
+    # - name: Install pip, python-dev package with apt
+    #   apt:
+    #     pkg: "{{ item }}"
+    #     state: latest
+    #     update_cache: yes
+    #   with_items:
+    #     - python-dev
+    #     - python-pip
+    #
+    # - name: Upgrade latest pip, setuptools, docker-py and docker-compose with pip
+    #   pip:
+    #     name: "{{ item.name }}"
+    #     state: latest
+    #   with_items:
+    #     - { name: pip, version: latest, install: true }
+    #     - { name: setuptools, version: latest, install: true }
+    #     - { name: docker-py==1.9.0, state: forcereinstall }
+    #     # - { name: docker-compose, version: latest, install: true }
+    #   ignore_errors: yes
+    #   register: docker_py_inastall
+    #
+    # - debug: var=docker_py_inastall verbosity=4
+    #
+    # - name: Checking out Java project
+    #   git: repo=https://github.com/rolindroy/devops-ci-deployment.git/
+    #        dest="/home/{{ ubuntu_user }}/jenkins-slave"
 
     - name: Running Maven build
       shell: mvn clean compile package  chdir="/home/{{ ubuntu_user }}/jenkins-slave/CounterWebApp"
@@ -108,4 +108,6 @@
       docker_image:
         path: "/home/{{ ubuntu_user }}/jenkins-slave"
         name: devops_bootstrap/counterapp
+        tag: latest
+        state: present
       when: copy_artifact.changed
