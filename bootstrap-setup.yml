@@ -82,8 +82,8 @@
       with_items:
         - { name: pip, version: latest, install: true }
         - { name: setuptools, version: latest, install: true }
-        # - { name: docker-py==1.9.0, state: forcereinstall }
-        - { name: docker-compose, version: latest, install: true }
+        - { name: docker-py==1.9.0, state: forcereinstall }
+        # - { name: docker-compose, version: latest, install: true }
       ignore_errors: yes
       register: docker_py_inastall
 
