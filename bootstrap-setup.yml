@@ -48,7 +48,6 @@
       sudo: true
       with_items:
         - "{{ ubuntu_user }}"
-        - jenkins
       register: docker_group
 
     - name: Kill open ssh sessions
@@ -83,7 +82,7 @@
       with_items:
         - { name: pip, version: latest, install: true }
         - { name: setuptools, version: latest, install: true }
-        - { name: docker-py, version: 1.9.0, install: true }
+        - { name: docker-py==1.9.0, version: 1.9.0, install: true }
         - { name: docker-compose, version: latest, install: true }
       ignore_errors: yes
 
@@ -100,7 +99,7 @@
       register: copy_artifact
       when: build_success.changed
 
-    - name: Build image and with buildargs
+    - name: Build docker image
       docker_image:
         path: "/home/{{ ubuntu_user }}/jenkins-slave"
         name: devops_bootstrap/counterapp
