@@ -106,7 +106,7 @@
 
     - name: pull an image
       docker_image:
-        name: pacur/centos-7
+        name: ubuntu:12.04
 
     - name: Build docker image
       docker_image:
