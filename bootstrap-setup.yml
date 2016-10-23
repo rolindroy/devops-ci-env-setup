@@ -36,12 +36,15 @@
     - role: sonar
 
   tasks:
+    # - name: Install Docker
+    #   apt: pkg={{ item }} state=latest
+    #   with_items:
+    #     - docker
+    #     - docker.io
+    #   ignore_errors: True
+
     - name: Install Docker
-      apt: pkg={{ item }} state=latest
-      with_items:
-        - docker
-        - docker.io
-      ignore_errors: True
+      shell: curl -sSL https://get.docker.com/ | sh 
 
     - name: Update docker service to run without sudo
       user: name={{ item }} groups=docker append=yes
@@ -86,8 +89,6 @@
         # - { name: docker-compose, version: latest, install: true }
       ignore_errors: yes
       register: docker_py_inastall
-
-    - shell: curl -sSL https://get.docker.com/ | sh 
 
     - debug: var=docker_py_inastall verbosity=4
 
