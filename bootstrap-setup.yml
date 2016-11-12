@@ -31,9 +31,7 @@
       java_packages:
         - openjdk-8-jdk
 
-    - role: mysql
     - role: maven
-    - role: sonar
 
   tasks:
     # - name: Install Docker
@@ -44,7 +42,7 @@
     #   ignore_errors: True
 
     - name: Install Docker
-      shell: curl -sSL https://get.docker.com/ | sh 
+      shell: curl -sSL https://get.docker.com/ | sh
 
     - name: Update docker service to run without sudo
       user: name={{ item }} groups=docker append=yes
@@ -93,7 +91,7 @@
     - debug: var=docker_py_inastall verbosity=4
 
     - name: Checking out Java project
-      git: repo=https://github.com/shifamariam/CI_CD-FINAL.git
+      git: repo=https://github.com/rolindroy/CI_CD-FINAL.git
            dest="/home/{{ ubuntu_user }}/jenkins-slave"
 
     - name: Running Maven build
