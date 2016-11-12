@@ -93,11 +93,11 @@
     - debug: var=docker_py_inastall verbosity=4
 
     - name: Checking out Java project
-      git: repo=https://github.com/rolindroy/devops-ci-deployment.git/
+      git: repo=https://github.com/shifamariam/CI_CD-FINAL.git
            dest="/home/{{ ubuntu_user }}/jenkins-slave"
 
     - name: Running Maven build
-      shell: mvn clean compile package  chdir="/home/{{ ubuntu_user }}/jenkins-slave/CounterWebApp"
+      shell: mvn clean compile sonar:sonar -Dsonar.jdbc.url=jdbc:h2:tcp://qa-server.rolindroy.com:9092/sonar -Dsonar.host.url=http://qa-server.rolindroy.com:9000 package  chdir="/home/{{ ubuntu_user }}/jenkins-slave/CounterWebApp"
       register: build_success
 
     - debug: var=build_success.stdout_lines
