@@ -34,9 +34,9 @@
         # instance_tags:
         #     Name: "{{ ec2_tag_Name }}"
         state: absent
-        instance_ids: '{{ all_ec2.instance_ids }}'
+        instance_ids: '{{ item.public_ip }}'
       ignore_errors: true
-      with_items: "{{ all_ec2 }}"
+      with_items: "{{ all_ec2.instances }}"
 
     - name: launch ec2 instance for QA
       local_action:
