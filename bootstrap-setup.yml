@@ -151,7 +151,7 @@
     - debug: var=docker_py_inastall verbosity=4
 
     - name: Checking out Java project
-      git: repo=https://github.com/rolindroy/CI_CD-FINAL.git
+      git: repo=https://github.com/rolindroy/Devops-java-project.git
            dest="/home/{{ ubuntu_user }}/jenkins-slave"
 
     - name: Running Maven build
