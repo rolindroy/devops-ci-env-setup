@@ -36,7 +36,7 @@
         state: absent
         instance_ids: '{{ all_ec2.instance_ids }}'
       ignore_errors: true
-      with_items: "{{ all_ec2.instances }}"
+      with_items: "{{ all_ec2 }}"
 
     - name: launch ec2 instance for QA
       local_action:
