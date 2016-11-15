@@ -24,7 +24,7 @@
         region: "{{ ec2_region }}"
       register: all_ec2
 
-    - debug: var=item
+    - debug: var=item.public_ip
       with_items: "{{ all_ec2.instances }}"
 
     - name: Terminate all existing Ec2 instances
