@@ -22,7 +22,7 @@
         instance_tags:
             Name: "{{ ec2_tag_Name }}"
         state: absent
-        ignore_errors: true
+      ignore_errors: true
 
     - name: launch ec2 instance for QA
       local_action:
