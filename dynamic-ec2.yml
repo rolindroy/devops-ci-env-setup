@@ -21,7 +21,7 @@
         filters:
           instance-state-name: running
           "tag:Name": "{{ ec2_tag_Name }}"
-          region: "{{ ec2_region }}"
+        region: "{{ ec2_region }}"
       register: all_ec2
 
     - debug: var=item
@@ -30,7 +30,7 @@
     - name: Terminate all existing Ec2 instances
       local_action:
         module: ec2
-        # region: "{{ ec2_region }}"
+        region: "{{ ec2_region }}"
         # instance_tags:
         #     Name: "{{ ec2_tag_Name }}"
         state: absent
