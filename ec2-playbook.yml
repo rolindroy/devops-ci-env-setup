@@ -1,0 +1,30 @@
+---
+
+- hosts: localhost
+  connection: local
+  gather_facts: no
+  sudo: yes
+  remote_user: ubuntu
+  vars:
+    region: us-east-1
+    instance_type: t2.micro
+    image: ami-f253e19a
+    key: bastion-key
+    contents:  "{{ lookup('file', 'userdata.sh') }}"
+  tasks:
+   # - name: testing
+   #   tags: testing
+      #debug: msg="{{ lookup('file','userdata.sh') }} "
+    - name: creating ec2-instance
+      ec2:
+        key_name: "{{ key}}"
+        group: ec2-sg-public
+        instance_type: "{{ instance_type }}"
+        image: "{{ image }}"
+        wait: yes
+        wait_timeout: 500
+        count: 1
+        instance_tags:
+           name: DevOps-QA
+        vpc_subnet_id: "{{ vpc_subnet_id }}"
+        # assign_public_ip: yes
