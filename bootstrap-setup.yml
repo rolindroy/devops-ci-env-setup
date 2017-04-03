@@ -156,6 +156,7 @@
 
     - name: Running Maven build
       shell: mvn clean compile sonar:sonar -Dsonar.jdbc.url=jdbc:h2:tcp://qa-server.rolindroy.com:9092/sonar -Dsonar.host.url=http://qa-server.rolindroy.com:9000 package  chdir="/home/{{ ubuntu_user }}/jenkins-slave/CounterWebApp"
+      #shell: mvn clean compile sonar:sonar package  chdir="/home/{{ ubuntu_user }}/jenkins-slave/CounterWebApp"
       register: build_success
 
     - debug: var=build_success.stdout_lines
